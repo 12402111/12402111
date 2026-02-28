@@ -1,0 +1,69 @@
+#include<bits/stdc++.h>
+using namespace std;
+class Complex{
+
+    int real;int img;
+
+public:
+    Complex(int r=0,int i=0)
+    {
+        real=r;img=i;
+    }
+
+    Complex operator+(Complex const &c)
+    {
+        return Complex(real + c.real, img + c.img);
+    }
+    Complex& operator++()
+    {++real;++img;
+        return *this;
+    }
+    Complex operator++(int)
+    {
+        Complex dummy=*this;
+        real++;img++;
+        return dummy;    }
+
+    Complex operator*(Complex c1)
+    {int a=c1.real;int b=c1.img;
+        return Complex(real*a-b*img,b*real+a*img);
+    }
+friend ostream& operator<<(ostream& out,const Complex &x);
+friend istream& operator >>(istream& in,Complex &x);
+
+    
+    
+};
+
+ostream& operator<<(ostream& out,const Complex &x)
+{
+       out<<x.real;
+        (x.img>0)?out<<"+":out<<"-";
+        out<<to_string(abs(x.img))<<"i"<<endl;
+
+        return out;
+
+}
+
+istream& operator >>(istream& in,Complex &x)
+{
+    in>>x.real>>x.img;
+    return in;
+}
+
+
+int main()
+{
+  Complex c1(1,-2);
+  Complex c2;cin>>c2;
+
+ cout<<c1<<c2;
+  cout<<(c1+c2);
+   Complex c3=++(++c1);cout<<c1<<c3;
+
+     Complex c4=c1++;cout<<c4<<"Now"<<endl<<c1<<endl;
+
+     Complex c5=c1*c2;cout<<c5;
+
+    
+}
