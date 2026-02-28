@@ -1,0 +1,48 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class MyString {
+private:
+    char* str;
+    int len;
+
+public:
+    // Constructor
+    MyString(const char* s = "") {
+        len = strlen(s);
+        str = new char[len + 1];
+        strcpy(str, s);
+    }
+
+    // Destructor
+    ~MyString() { delete[] str; }
+
+    // 1. Concatenation Operator (+)
+    MyString operator+(const MyString& other) {
+        char* temp = new char[len + other.len + 1];
+        strcpy(temp, str);       // Copy first part
+        strcat(temp, other.str); // Attach second part
+        
+        MyString newStr(temp);
+        delete[] temp; // Clean up local pointer
+        return newStr;
+    }
+
+    // 2. Equality Operator (==)
+    bool operator==(const MyString& other) {
+        return strcmp(str, other.str) == 0;
+    }
+
+    // 3. Indexing Operator ([])
+    char& operator[](int index) {
+        return str[index];
+    }
+
+    friend ostream& operator<<(ostream& out, const MyString& s);
+};
+
+ostream& operator<<(ostream& out, const MyString& s) {
+    out << s.str;
+    return out;
+}
