@@ -1,0 +1,127 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class matrix
+{
+private:
+    int row;
+    int col;
+   int **mat;
+
+public:
+    matrix(int r = 0, int c = 0)
+    {
+        row = r;
+        col = c;
+        mat=new int*[r];
+        for(int i=0;i<r;++i)mat[i]=new int[c];
+
+    }
+
+    int& operator()(int r,int c)
+    {
+        return mat[r][c];
+    }
+    matrix operator+(const matrix &m)
+    {
+        
+        matrix temp(row, col);
+        for (int i = 0; i < m.row; ++i)
+        {
+            for (int j = 0; j < m.col; ++j)
+            {
+                temp.mat[i][j] = mat[i][j] + m.mat[i][j];
+            }
+        }
+        return temp;
+    }
+    
+matrix(const matrix &other) {
+    row = other.row;
+    col = other.col;
+    mat = new int*[row];
+    for (int i = 0; i < row; ++i) {
+        mat[i] = new int[col];
+        for (int j = 0; j < col; ++j) {
+            mat[i][j] = other.mat[i][j];
+        }
+    }
+}
+
+matrix& operator=(const matrix &other) {
+
+    if (this == &other) return *this;
+
+    
+    for (int i = 0; i < row; ++i) delete[] mat[i];
+    delete[] mat;
+
+    
+    row = other.row;
+    col = other.col;
+    mat = new int*[row];
+    for (int i = 0; i < row; ++i) {
+        mat[i] = new int[col];
+        for (int j = 0; j < col; ++j) {
+            mat[i][j] = other.mat[i][j];
+        }
+    }
+
+    // 4. Return the object itself
+    return *this;
+}
+    friend ostream& operator <<(ostream&out,const matrix &m);
+    friend istream& operator>>(istream&in,matrix &m);
+    ~matrix() {
+        for(int i = 0; i < row; ++i) delete[] mat[i];
+        delete[] mat;
+    }
+};
+
+ostream& operator<<(ostream&out,const matrix &m)
+{
+    for(int i=0;i<m.row;++i)
+    {
+        for(int j=0;j<m.col;++j)
+        {
+            out<<m.mat[i][j]<<" ";
+        }out<<endl;
+    }
+    return out;
+}
+
+istream& operator >>(istream&in,matrix &m)
+{
+    
+ for(int i = 0; i < m.row; ++i) delete[]m.mat[i];
+
+  delete []m.mat;
+  in>>m.row>>m.col;int r=m.row;int c=m.col;
+   
+m.mat=new int*[r];
+        for(int i=0;i<r;++i)m.mat[i]=new int[c];
+for(int i=0;i<m.row;++i)
+    {
+        for(int j=0;j<m.col;++j)
+        {
+            in>>m.mat[i][j];
+        }
+    }
+    return in;
+}
+int main()
+{
+   matrix m1, m2;
+    cout << "Enter rows, cols, and elements for M1: " << endl;
+    cin >> m1;
+    cout << "Enter rows, cols, and elements for M2: " << endl;
+    cin >> m2;
+
+    matrix sum = m1 + m2;
+    cout << "Sum Matrix:" << endl << sum;
+
+    // Using the () operator we implemented
+    cout << "Element at (0,0) of sum is: " << sum(1, 2) << endl;
+
+    return 0;
+}
